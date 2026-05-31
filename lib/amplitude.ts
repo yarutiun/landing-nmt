@@ -13,3 +13,5 @@ export const track = (eventName: string, properties?: Record<string, unknown>) =
 export const identifyUser = (userId: string) => {
   amplitude.setUserId(userId)
 }
+
+export const flush = () => amplitude.flush()

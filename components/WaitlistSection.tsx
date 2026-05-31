@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useSectionTracking } from '@/lib/useAmplitude'
-import { track } from '@/lib/amplitude'
+import { track, flush } from '@/lib/amplitude'
 
 type Tab = 'email' | 'telegram' | 'phone'
 
@@ -79,6 +79,7 @@ export default function WaitlistSection() {
       input_type: activeTab,
       position,
     })
+    flush()
   }
 
   return (
