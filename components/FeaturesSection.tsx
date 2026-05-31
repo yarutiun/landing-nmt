@@ -6,11 +6,11 @@ const features = [
   {
     icon: '🔥',
     title: 'Стріки',
-    description: 'Займайся щодня. Стрік мотивує більше ніж будь-який репетитор.',
+    description: 'Займайся щодня. Стрік мотивує більше, ніж будь-який репетитор.',
   },
   {
     icon: '🏆',
-    title: 'Ачівки',
+    title: 'Досягнення',
     description: 'Розблокуй нагороди за прогрес. Нові задачі — нові трофеї.',
   },
   {
@@ -31,7 +31,7 @@ const features = [
   {
     icon: '📊',
     title: 'Аналітика прогресу',
-    description: 'Бачиш що вивчив, що ні. Без сюрпризів на екзамені.',
+    description: 'Бачиш, що вивчив, що ні. Без сюрпризів на екзамені.',
   },
 ]
 
@@ -58,7 +58,7 @@ export default function FeaturesSection() {
             className="text-3xl sm:text-4xl lg:text-5xl font-black"
             style={{ letterSpacing: '-0.02em' }}
           >
-            Все щоб ти здав НМТ
+            Все, щоб ти здав НМТ
           </h2>
         </div>
 
