@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useSectionTracking } from '@/lib/useAmplitude'
-import { track, flush } from '@/lib/amplitude'
+import { track, flush, identifyUser, setUserProperties } from '@/lib/amplitude'
 
 type Tab = 'email' | 'telegram' | 'phone'
 
@@ -75,9 +75,16 @@ export default function WaitlistSection() {
     setSubmitted(true)
     setIsLoading(false)
 
+    identifyUser(inputValue.trim())
+    setUserProperties({
+      waitlist_contact: inputValue.trim(),
+      waitlist_contact_type: activeTab,
+      waitlist_position: position,
+    })
     track('waitlist_submitted', {
       input_type: activeTab,
       position,
+      contact: inputValue.trim(),
     })
     flush()
   }
