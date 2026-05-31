@@ -1,5 +1,6 @@
 'use client'
 
+import { Bot } from 'lucide-react'
 import { useSectionTracking } from '@/lib/useAmplitude'
 
 const topics = [
@@ -84,7 +85,7 @@ export default function AISection() {
               style={{ borderBottom: '1px solid #252535' }}
             >
               <div className="flex items-center gap-2">
-                <span className="text-base">🤖</span>
+                <Bot size={16} color="#00D4AA" strokeWidth={1.75} />
                 <span className="text-sm font-semibold">AI Аналіз результатів</span>
               </div>
               <span
