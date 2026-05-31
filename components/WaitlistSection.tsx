@@ -123,7 +123,7 @@ export default function WaitlistSection() {
                 className="font-black text-2xl tabular-nums"
                 style={{ color: '#7B61FF' }}
               >
-                #{queueNumber}
+                #849
               </span>{' '}
               в черзі
             </p>
