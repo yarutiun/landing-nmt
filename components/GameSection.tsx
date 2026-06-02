@@ -209,7 +209,7 @@ export default function GameSection() {
           </div>
 
           {/* Fighters */}
-          <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, padding: '26px 22px 8px', alignItems: 'end' }}>
+          <div className="arena-fighters" style={{ position: 'relative', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, padding: '26px 22px 8px', alignItems: 'end' }}>
             {/* VS */}
             <div style={{
               content: 'VS', position: 'absolute', top: '42%', left: '50%',
@@ -243,7 +243,7 @@ export default function GameSection() {
               <div style={{ display: 'flex', gap: 5 }}>
                 {[0, 1, 2].map(i => <div key={i} style={{ width: 26, height: 26 }}><PixelHeart full={i < youHP} /></div>)}
               </div>
-              <div style={catCharStyle}><MascotCat /></div>
+              <div className="fighter-char" style={catCharStyle}><MascotCat /></div>
             </div>
 
             {/* Boss */}
@@ -267,7 +267,7 @@ export default function GameSection() {
               <div style={{ display: 'flex', gap: 5 }}>
                 {[0, 1, 2].map(i => <div key={i} style={{ width: 26, height: 26 }}><PixelHeart full={i < bossHP} /></div>)}
               </div>
-              <div style={dogCharStyle}><MascotDog /></div>
+              <div className="fighter-char" style={dogCharStyle}><MascotDog /></div>
             </div>
           </div>
 
@@ -293,7 +293,7 @@ export default function GameSection() {
               <div style={{ fontFamily: 'var(--fd)', fontWeight: 700, fontSize: 'clamp(20px,3vw,28px)', lineHeight: 1.35, marginBottom: 20, color: 'var(--teal-deep)' }}>
                 {Q.q}
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div className="answer-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 {Q.opts.map((opt, i) => {
                   let borderColor = 'var(--glass-line)'
                   let bg = 'var(--glass)'

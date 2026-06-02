@@ -322,3 +322,67 @@ img, svg {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--teal-deep);
 }
+
+/* ===== MOBILE RESPONSIVE ===== */
+
+/* Bento grid: 2 cols on tablet, 1 col on phone */
+@media (max-width: 820px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .bento-card-2,
+  .bento-card-3 {
+    grid-column: span 2 !important;
+  }
+}
+@media (max-width: 520px) {
+  .bento-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .bento-card-2,
+  .bento-card-3 {
+    grid-column: span 1 !important;
+  }
+}
+
+/* Hero mascot bubbles: hide on mobile */
+@media (max-width: 900px) {
+  .hero-peek-talk {
+    display: none !important;
+  }
+}
+
+/* Hero mascots: reduce on tablet, hide on small phone */
+@media (max-width: 680px) {
+  .hero-peek {
+    width: 64px !important;
+    opacity: 0.4 !important;
+    top: 110px !important;
+  }
+}
+@media (max-width: 420px) {
+  .hero-peek {
+    display: none !important;
+  }
+}
+
+/* Game arena fighters: compact on mobile */
+@media (max-width: 560px) {
+  .arena-fighters {
+    gap: 4px !important;
+    padding: 12px 8px 6px !important;
+  }
+  .fighter-char {
+    width: clamp(68px, 26vw, 108px) !important;
+  }
+  .answer-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Navbar: hide CTA text on very small screens, keep icon */
+@media (max-width: 380px) {
+  .nav-cta-text {
+    display: none !important;
+  }
+}

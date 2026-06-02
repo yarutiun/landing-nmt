@@ -64,7 +64,7 @@ export default function HeroSection() {
       </svg>
 
       {/* Peeking cat */}
-      <div style={{
+      <div className="hero-peek" style={{
         position: 'absolute', top: 78, left: '4vw', pointerEvents: 'none',
         width: 'clamp(74px,11vw,128px)', filter: 'drop-shadow(0 16px 22px rgba(15,92,84,.28))',
         animation: 'peekL 5s ease-in-out infinite',
@@ -72,7 +72,7 @@ export default function HeroSection() {
         <MascotCat />
       </div>
       {/* Cat talk bubble */}
-      <div style={{
+      <div className="hero-peek-talk" style={{
         position: 'absolute', zIndex: 6, top: 205, left: 'calc(4vw + 26px)',
         maxWidth: 178, padding: '11px 15px', borderRadius: 18,
         fontSize: 12.5, fontWeight: 700, lineHeight: 1.34, color: '#163a36',
@@ -89,7 +89,7 @@ export default function HeroSection() {
       </div>
 
       {/* Peeking dog */}
-      <div style={{
+      <div className="hero-peek" style={{
         position: 'absolute', top: 78, right: '4vw', pointerEvents: 'none',
         width: 'clamp(74px,11vw,128px)', filter: 'drop-shadow(0 16px 22px rgba(15,92,84,.28))',
         animation: 'peekR 5.6s ease-in-out infinite',
@@ -97,7 +97,7 @@ export default function HeroSection() {
         <MascotDog />
       </div>
       {/* Dog talk bubble */}
-      <div style={{
+      <div className="hero-peek-talk" style={{
         position: 'absolute', zIndex: 6, top: 205, right: 'calc(4vw + 26px)',
         maxWidth: 178, padding: '11px 15px', borderRadius: 18,
         fontSize: 12.5, fontWeight: 700, lineHeight: 1.34, color: '#163a36',
