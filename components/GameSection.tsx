@@ -206,7 +206,6 @@ export default function GameSection() {
             <div style={{ flex: 1, maxWidth: 240, height: 9, borderRadius: 9, background: 'rgba(15,92,84,.12)', overflow: 'hidden', margin: '0 14px' }}>
               <div style={{ height: '100%', width: `${qProgress}%`, borderRadius: 9, background: 'linear-gradient(90deg,var(--green),var(--gold))', transition: 'width .5s' }} />
             </div>
-            <span style={{ color: '#a9772e' }}>Питання {Math.min(qi + 1, QUESTIONS.length)}/{QUESTIONS.length}</span>
           </div>
 
           {/* Fighters */}
