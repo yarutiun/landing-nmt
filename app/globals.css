@@ -362,7 +362,8 @@ img, svg {
 }
 @media (max-width: 420px) {
   .hero-peek {
-    display: none !important;
+    width: 52px !important;
+    opacity: 0.35 !important;
   }
 }
 
