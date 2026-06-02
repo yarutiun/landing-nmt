@@ -66,7 +66,7 @@ export default function WaitlistSection() {
                 type="text"
                 value={value}
                 onChange={e => setValue(e.target.value)}
-                placeholder="твоя пошта або @telegram"
+                placeholder="e-mail або @telegram"
                 style={{
                   flex: 1, minWidth: 200, padding: '15px 20px', borderRadius: 40,
                   fontFamily: 'var(--fu)', fontSize: 15, color: 'var(--ink)',
