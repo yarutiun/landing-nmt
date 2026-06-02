@@ -1,239 +1,119 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useSectionTracking } from '@/lib/useAmplitude'
 import { track, flush, identifyUser, setUserProperties } from '@/lib/amplitude'
 
-type Tab = 'email' | 'telegram' | 'phone'
-
-const tabConfig: Record<Tab, { label: string; placeholder: string }> = {
-  email: {
-    label: 'Email',
-    placeholder: 'твій@email.com',
-  },
-  telegram: {
-    label: 'Telegram',
-    placeholder: '@username',
-  },
-  phone: {
-    label: 'Телефон',
-    placeholder: '+380 XX XXX XX XX',
-  },
-}
-
-function validateInput(tab: Tab, value: string): boolean {
-  const v = value.trim()
-  if (!v) return false
-
-  if (tab === 'email') {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
-  }
-  if (tab === 'telegram') {
-    return v.startsWith('@') && v.length >= 2
-  }
-  if (tab === 'phone') {
-    return /^\+?[\d\s\-()]{7,}$/.test(v)
-  }
-  return false
-}
-
 export default function WaitlistSection() {
   const ref = useSectionTracking('waitlist', 'waitlist')
-
-  const [activeTab, setActiveTab] = useState<Tab>('email')
-  const [inputValue, setInputValue] = useState('')
+  const [value, setValue] = useState('')
+  const [toast, setToast] = useState('')
+  const [showToast, setShowToast] = useState(false)
   const [submitted, setSubmitted] = useState(false)
-  const [queueNumber, setQueueNumber] = useState(0)
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
 
-  const handleTabChange = (tab: Tab) => {
-    setActiveTab(tab)
-    setInputValue('')
-    setError('')
-    track('waitlist_tab_changed', { tab })
+  const toastMsg = (m: string) => {
+    setToast(m)
+    setShowToast(true)
+    setTimeout(() => setShowToast(false), 2400)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
-
-    if (!validateInput(activeTab, inputValue)) {
-      if (activeTab === 'email') setError('Введи дійсний email')
-      else if (activeTab === 'telegram') setError('Telegram має починатися з @')
-      else setError('Введи дійсний номер телефону')
-      return
-    }
-
-    setIsLoading(true)
-
-    // Simulate async operation
-    await new Promise((resolve) => setTimeout(resolve, 800))
-
+    const v = value.trim()
+    if (!v) { toastMsg('Введи пошту або телеграм'); return }
     const position = Math.floor(Math.random() * 100) + 800
-    setQueueNumber(position)
-    setSubmitted(true)
-    setIsLoading(false)
-
-    identifyUser(inputValue.trim())
-    setUserProperties({
-      waitlist_contact: inputValue.trim(),
-      waitlist_contact_type: activeTab,
-      waitlist_position: position,
-    })
-    track('waitlist_submitted', {
-      input_type: activeTab,
-      position,
-      contact: inputValue.trim(),
-    })
+    identifyUser(v)
+    setUserProperties({ waitlist_contact: v, waitlist_position: position })
+    track('waitlist_submitted', { contact: v, position })
     flush()
+    setValue('')
+    setSubmitted(true)
+    toastMsg('Готово! Ти в списку перших. Скін для котика чекає')
   }
 
   return (
     <section
-      id="waitlist"
+      id="join"
       ref={ref as React.RefObject<HTMLElement>}
-      className="py-24 px-4 sm:px-6 lg:px-8"
-      style={{ borderTop: '1px solid #1E1E2E' }}
+      style={{ padding: '70px 0 90px' }}
     >
-      <div className="max-w-lg mx-auto text-center">
-        {/* Header */}
-        <span
-          className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded"
-          style={{ color: '#7B61FF', backgroundColor: 'rgba(123,97,255,0.1)', border: '1px solid rgba(123,97,255,0.25)' }}
+      <div style={{ maxWidth: 1080, margin: '0 auto', padding: '0 clamp(16px,4vw,28px)', position: 'relative', zIndex: 1 }}>
+        <div
+          className="reveal"
+          style={{
+            position: 'relative', overflow: 'hidden', borderRadius: 34,
+            padding: 'clamp(34px,5vw,64px)', textAlign: 'center',
+            background: 'radial-gradient(700px 360px at 50% -20%,rgba(255,236,180,.7),transparent 60%),radial-gradient(600px 320px at 50% 130%,rgba(79,191,131,.22),transparent 60%),linear-gradient(160deg,#eafbf2,#d9f4ea)',
+            border: '2px solid var(--glass-line)', boxShadow: 'var(--shadow)',
+          }}
         >
-          Вейтліст
-        </span>
-        <h2
-          className="text-3xl sm:text-4xl lg:text-5xl font-black mb-4"
-          style={{ letterSpacing: '-0.02em' }}
-        >
-          Отримай доступ першим
-        </h2>
-        <p className="text-base sm:text-lg mb-10" style={{ color: '#9090AA' }}>
-          Платформа в розробці. Займи місце зараз — і отримай ранній доступ + бонуси.
-        </p>
+          <h2 style={{ fontFamily: 'var(--fd)', fontWeight: 900, fontSize: 'clamp(30px,5vw,50px)', lineHeight: 1.05, marginBottom: 14, color: 'var(--teal-deep)' }}>
+            Займи місце<br />у перших рядах проекту
+          </h2>
+          <p style={{ color: 'var(--ink-soft)', fontSize: 16, maxWidth: 480, margin: '0 auto 28px', lineHeight: 1.6 }}>
+            Платформа в розробці. Залиш контакт — і отримай ранній доступ та ексклюзивний скін для котика Ти.
+          </p>
 
-        {submitted ? (
-          /* Success State */
-          <div
-            className="rounded-2xl p-8 text-center"
-            style={{ backgroundColor: '#141420', border: '1px solid #252535' }}
-          >
-            <div className="text-4xl mb-4">🎉</div>
-            <h3 className="text-xl font-black mb-2" style={{ letterSpacing: '-0.02em' }}>
-              Вітаємо!
-            </h3>
-            <p className="text-base mb-4" style={{ color: '#9090AA' }}>
-              Ти{' '}
-              <span
-                className="font-black text-2xl tabular-nums"
-                style={{ color: '#7B61FF' }}
-              >
-                #849
-              </span>{' '}
-              в черзі
-            </p>
-            <p className="text-sm" style={{ color: '#5A5A72' }}>
-              Ми повідомимо тебе, як тільки відкриємо доступ.
-            </p>
-          </div>
-        ) : (
-          /* Form */
-          <div
-            className="rounded-2xl overflow-hidden"
-            style={{ border: '1px solid #252535', backgroundColor: '#141420' }}
-          >
-            {/* Tabs */}
-            <div
-              className="flex"
-              style={{ borderBottom: '1px solid #252535' }}
-            >
-              {(Object.keys(tabConfig) as Tab[]).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => handleTabChange(tab)}
-                  className="flex-1 py-3 text-sm font-medium transition-all duration-200"
-                  style={{
-                    color: activeTab === tab ? '#FFFFFF' : '#5A5A72',
-                    backgroundColor: activeTab === tab ? '#1A1A28' : 'transparent',
-                    borderBottom: activeTab === tab ? '2px solid #7B61FF' : '2px solid transparent',
-                  }}
-                >
-                  {tabConfig[tab].label}
-                </button>
-              ))}
+          {submitted ? (
+            <div style={{ display: 'inline-block', padding: '20px 32px', borderRadius: 20, background: 'var(--glass)', border: '1.5px solid var(--glass-line)' }}>
+              <div style={{ fontSize: 36, marginBottom: 8 }}>🎉</div>
+              <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 20, color: 'var(--teal-deep)', marginBottom: 6 }}>Вітаємо!</div>
+              <div style={{ color: 'var(--ink-soft)', fontSize: 14 }}>Ти в списку перших. Очікуй пінг!</div>
             </div>
-
-            {/* Form Body */}
-            <form onSubmit={handleSubmit} className="p-6">
-              <div className="mb-4">
-                <input
-                  type={activeTab === 'email' ? 'email' : 'text'}
-                  value={inputValue}
-                  onChange={(e) => {
-                    setInputValue(e.target.value)
-                    setError('')
-                  }}
-                  placeholder={tabConfig[activeTab].placeholder}
-                  className="w-full text-sm px-4 py-3 rounded-lg outline-none transition-all duration-200 placeholder-gray-600"
-                  style={{
-                    backgroundColor: '#0C0C10',
-                    border: error ? '1px solid #EF4444' : '1px solid #252535',
-                    color: '#FFFFFF',
-                  }}
-                  autoComplete="off"
-                  spellCheck={false}
-                />
-                {error && (
-                  <p className="mt-2 text-xs text-left" style={{ color: '#EF4444' }}>
-                    {error}
-                  </p>
-                )}
-              </div>
-
+          ) : (
+            <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 10, maxWidth: 460, margin: '0 auto', flexWrap: 'wrap' }}>
+              <input
+                type="text"
+                value={value}
+                onChange={e => setValue(e.target.value)}
+                placeholder="твоя пошта або @telegram"
+                style={{
+                  flex: 1, minWidth: 200, padding: '15px 20px', borderRadius: 40,
+                  fontFamily: 'var(--fu)', fontSize: 15, color: 'var(--ink)',
+                  background: 'rgba(255,255,255,.75)', border: '1.5px solid var(--glass-line)',
+                  boxShadow: 'inset 0 2px 6px rgba(10,59,56,.06)', outline: 'none',
+                  transition: '.2s',
+                }}
+                onFocus={e => { e.target.style.borderColor = 'var(--teal)'; e.target.style.background = '#fff' }}
+                onBlur={e => { e.target.style.borderColor = 'var(--glass-line)'; e.target.style.background = 'rgba(255,255,255,.75)' }}
+              />
               <button
                 type="submit"
-                disabled={isLoading}
-                className="w-full py-3 text-sm font-bold rounded-lg transition-all duration-200 hover:opacity-90 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
-                style={{ backgroundColor: '#7B61FF', color: '#FFFFFF' }}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '12px 22px', borderRadius: 40, fontWeight: 700, fontSize: 15,
+                  color: '#06241f', background: 'linear-gradient(135deg,var(--teal-bright),var(--green))',
+                  boxShadow: '0 14px 30px -10px rgba(84,224,160,.7),inset 0 2px 0 rgba(255,255,255,.4)',
+                  border: 'none', cursor: 'pointer', fontFamily: 'var(--fu)',
+                  transition: 'transform .2s,box-shadow .2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 20px 38px -10px rgba(84,224,160,.85)' }}
+                onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 14px 30px -10px rgba(84,224,160,.7),inset 0 2px 0 rgba(255,255,255,.4)' }}
               >
-                {isLoading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg
-                      className="animate-spin"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                      />
-                    </svg>
-                    Зберігаємо...
-                  </span>
-                ) : (
-                  'Зайняти місце'
-                )}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: '1.05em', height: '1.05em' }}>
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                  <line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/>
+                </svg>
+                Зайняти місце
               </button>
-
-              <p className="mt-4 text-xs" style={{ color: '#5A5A72' }}>
-                Ми не надсилаємо спам. Тільки повідомлення про запуск.
-              </p>
             </form>
-          </div>
-        )}
+          )}
+
+          <div style={{ marginTop: 14, fontSize: 12.5, color: 'var(--ink-soft)' }}>Без спаму. Тільки пінг, коли відкриємо доступ.</div>
+        </div>
+      </div>
+
+      {/* Toast */}
+      <div style={{
+        position: 'fixed', left: '50%', bottom: 26,
+        transform: showToast ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(24px)',
+        zIndex: 9001, opacity: showToast ? 1 : 0, pointerEvents: 'none',
+        padding: '14px 26px', borderRadius: 40, fontWeight: 700, color: '#06241f',
+        background: 'linear-gradient(135deg,var(--green),var(--teal-bright))',
+        boxShadow: '0 16px 30px -12px rgba(84,224,160,.7)',
+        transition: '.4s', whiteSpace: 'nowrap',
+      }}>
+        {toast}
       </div>
     </section>
   )

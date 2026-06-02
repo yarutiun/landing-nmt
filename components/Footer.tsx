@@ -1,23 +1,18 @@
 export default function Footer() {
   return (
-    <footer
-      className="py-8 px-4 sm:px-6 lg:px-8"
-      style={{ borderTop: '1px solid #1E1E2E' }}
-    >
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        {/* Logo */}
-        <span
-          className="text-lg font-black tracking-tight"
-          style={{ letterSpacing: '-0.03em' }}
-        >
-          NMT <span style={{ color: '#7B61FF' }}>GAME</span>
-        </span>
-
-        {/* Copyright */}
-        <p className="text-sm" style={{ color: '#5A5A72' }}>
-          © 2025 NMT GAME. Зроблено в Україні 🇺🇦
-        </p>
+    <footer style={{
+      padding: '30px 0 40px',
+      textAlign: 'center',
+      color: 'var(--ink-soft)',
+      fontSize: 13.5,
+      borderTop: '1.5px solid var(--glass-line)',
+      position: 'relative',
+      zIndex: 1,
+    }}>
+      <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 18, color: 'var(--ink)', marginBottom: 6 }}>
+        НМТ-GAME
       </div>
+      <div>© 2026 НМТ-GAME — грай, а не зубри. Зроблено в Україні 🇺🇦</div>
     </footer>
   )
 }

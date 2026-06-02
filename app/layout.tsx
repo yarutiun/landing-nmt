@@ -1,50 +1,41 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-
-const inter = Inter({
-  subsets: ['latin', 'cyrillic'],
-  display: 'swap',
-  variable: '--font-inter',
-  weight: ['400', '500', '600', '700', '800', '900'],
-})
+import AmplitudeInit from '@/components/AmplitudeInit'
 
 export const metadata: Metadata = {
-  title: 'NMT GAME — Готуйся до НМТ. Грай, а не зубри.',
-  description:
-    'Інтерактивна платформа для підготовки до НМТ. Стріки, PvP, AI-аналіз слабких зон. Математика — це гра.',
+  title: 'НМТ-GAME — Завали Боса. Здай НМТ.',
+  description: 'Підготовка до НМТ у форматі гри. Битва з Босом, мемна перерва, AI-розбір. Грай, а не зубри.',
   keywords: ['НМТ', 'підготовка до НМТ', 'математика', 'гейміфікація', 'освіта', 'школярі'],
   openGraph: {
-    title: 'NMT GAME — Готуйся до НМТ. Грай, а не зубри.',
-    description:
-      'Інтерактивна платформа для підготовки до НМТ. Стріки, PvP, AI-аналіз слабких зон.',
+    title: 'НМТ-GAME — Завали Боса. Здай НМТ.',
+    description: 'Підготовка до НМТ у форматі гри. Битва з Босом, мемна перерва, AI-розбір. Грай, а не зубри.',
     type: 'website',
     locale: 'uk_UA',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'NMT GAME — Готуйся до НМТ. Грай, а не зубри.',
-    description:
-      'Інтерактивна платформа для підготовки до НМТ. Стріки, PvP, AI-аналіз слабких зон.',
+    title: 'НМТ-GAME — Завали Боса. Здай НМТ.',
+    description: 'Підготовка до НМТ у форматі гри. Битва з Босом, мемна перерва, AI-розбір.',
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
-  },
+  robots: { index: true, follow: true },
+  icons: { icon: '/favicon.svg', shortcut: '/favicon.svg' },
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="uk" className={inter.variable}>
-      <body className="bg-background text-white antialiased">{children}</body>
+    <html lang="uk">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Comfortaa:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>
+        <AmplitudeInit />
+        {children}
+      </body>
     </html>
   )
 }

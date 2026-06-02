@@ -1,22 +1,22 @@
 'use client'
 
-import { Bot } from 'lucide-react'
+import React from 'react'
 import { useSectionTracking } from '@/lib/useAmplitude'
 
 const topics = [
-  { name: 'Квадратні рівняння', pct: 34, color: '#EF4444' },
-  { name: 'Тригонометрія', pct: 67, color: '#F97316' },
-  { name: 'Логарифми', pct: 45, color: '#EAB308' },
-  { name: 'Похідна функції', pct: 78, color: '#22C55E' },
-  { name: 'Геометрія (трикутники)', pct: 55, color: '#F97316' },
-  { name: 'Системи рівнянь', pct: 89, color: '#22C55E' },
+  { name: 'Квадратні рівняння', pct: 34 },
+  { name: 'Тригонометрія', pct: 67 },
+  { name: 'Логарифми', pct: 45 },
+  { name: 'Похідна функції', pct: 78 },
+  { name: 'Геометрія (трикутники)', pct: 55 },
+  { name: 'Системи рівнянь', pct: 89 },
 ]
 
-function getBarColor(pct: number): string {
-  if (pct < 40) return '#EF4444'
-  if (pct < 60) return '#F97316'
-  if (pct < 75) return '#EAB308'
-  return '#22C55E'
+function barColor(pct: number) {
+  if (pct < 40) return 'var(--red)'
+  if (pct < 60) return 'var(--ember)'
+  if (pct < 75) return 'var(--gold)'
+  return 'var(--green)'
 }
 
 export default function AISection() {
@@ -26,154 +26,108 @@ export default function AISection() {
     <section
       id="ai"
       ref={ref as React.RefObject<HTMLElement>}
-      className="py-20 px-4 sm:px-6 lg:px-8"
-      style={{ borderTop: '1px solid #1E1E2E' }}
+      style={{ padding: '70px 0' }}
     >
-      <div className="max-w-5xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Text */}
+      <div style={{ maxWidth: 1080, margin: '0 auto', padding: '0 clamp(16px,4vw,28px)', position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }} className="ai-grid reveal">
+          {/* Left */}
           <div>
-            <span
-              className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded"
-              style={{ color: '#00D4AA', backgroundColor: 'rgba(0,212,170,0.08)', border: '1px solid rgba(0,212,170,0.2)' }}
-            >
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8, padding: '7px 16px', borderRadius: 30,
+              fontWeight: 700, fontSize: 12.5, letterSpacing: 2, textTransform: 'uppercase',
+              color: 'var(--teal-deep)', background: 'rgba(31,158,146,.1)', border: '1.5px solid rgba(31,158,146,.3)',
+              marginBottom: 18,
+            }}>
               AI
             </span>
-            <h2
-              className="text-3xl sm:text-4xl lg:text-4xl font-black mb-6 leading-tight"
-              style={{ letterSpacing: '-0.02em' }}
-            >
+            <h2 style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 'clamp(26px,4vw,44px)', lineHeight: 1.1, marginBottom: 16, color: 'var(--ink)' }}>
               AI-репетитор, який бачить тебе наскрізь
             </h2>
-            <p className="text-base sm:text-lg leading-relaxed mb-8" style={{ color: '#9090AA' }}>
-              Здай пробний тест. Отримай детальний розбір: де помилився, чому, і як виправити.
-              Не загальні поради — конкретні теми для тебе.
+            <p style={{ fontSize: 'clamp(14px,1.6vw,17px)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 24 }}>
+              Здай пробний тест. Отримай детальний розбір: де помилився, чому, і як виправити. Не загальні поради — конкретні теми для тебе.
             </p>
-
-            <ul className="space-y-3">
-              {[
-                'Аналіз кожної відповіді',
-                'Рекомендовані теми для повторення',
-                'Прогноз балу на реальному НМТ',
-                'Персональний план підготовки',
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <span
-                    className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5"
-                    style={{ backgroundColor: 'rgba(0,212,170,0.1)', border: '1px solid rgba(0,212,170,0.25)' }}
-                  >
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {['Аналіз кожної відповіді', 'Рекомендовані теми для повторення', 'Прогноз балу на реальному НМТ', 'Персональний план підготовки'].map((item) => (
+                <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                  <span style={{
+                    flexShrink: 0, width: 20, height: 20, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    marginTop: 2, background: 'rgba(31,158,146,.12)', border: '1.5px solid rgba(31,158,146,.3)',
+                  }}>
                     <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                      <path d="M1 4L3.5 6.5L9 1" stroke="#00D4AA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M1 4L3.5 6.5L9 1" stroke="var(--teal)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </span>
-                  <span className="text-sm" style={{ color: '#9090AA' }}>
-                    {item}
-                  </span>
+                  <span style={{ fontSize: 14.5, color: 'var(--ink-soft)' }}>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Right: Mock AI Card */}
-          <div
-            className="rounded-2xl overflow-hidden"
-            style={{ border: '1px solid #252535', backgroundColor: '#141420' }}
-          >
-            {/* Card Header */}
-            <div
-              className="px-5 py-4 flex items-center justify-between"
-              style={{ borderBottom: '1px solid #252535' }}
-            >
-              <div className="flex items-center gap-2">
-                <Bot size={16} color="#00D4AA" strokeWidth={1.75} />
-                <span className="text-sm font-semibold">AI Аналіз результатів</span>
+          {/* Right: Mock AI card */}
+          <div style={{
+            borderRadius: 24, overflow: 'hidden',
+            background: 'var(--glass)', border: '1.5px solid var(--glass-line)',
+            boxShadow: 'var(--shadow)',
+          }}>
+            {/* Header */}
+            <div style={{
+              padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              borderBottom: '1.5px solid var(--glass-line)', background: 'rgba(255,255,255,.5)',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{ width: 16, height: 16 }}>
+                  <path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/>
+                  <path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>
+                </svg>
+                <span style={{ fontSize: 13, fontWeight: 700 }}>AI Аналіз результатів</span>
               </div>
-              <span
-                className="text-xs px-2 py-1 rounded font-medium"
-                style={{ backgroundColor: 'rgba(74,222,128,0.1)', color: '#4ADE80', border: '1px solid rgba(74,222,128,0.2)' }}
-              >
-                Готово
-              </span>
+              <span style={{
+                fontSize: 11, padding: '3px 8px', borderRadius: 20, fontWeight: 700,
+                background: 'rgba(79,191,131,.16)', color: 'var(--leaf-deep)', border: '1.5px solid rgba(79,191,131,.4)',
+              }}>Готово</span>
             </div>
-
             {/* Score */}
-            <div
-              className="px-5 py-4 flex items-center justify-between"
-              style={{ borderBottom: '1px solid #1E1E2E' }}
-            >
+            <div style={{ padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(255,255,255,.4)' }}>
               <div>
-                <div className="text-xs mb-1" style={{ color: '#5A5A72' }}>
-                  Прогнозований бал
-                </div>
-                <div className="text-3xl font-black" style={{ letterSpacing: '-0.03em' }}>
-                  156
-                  <span className="text-sm font-normal ml-1" style={{ color: '#5A5A72' }}>
-                    / 200
-                  </span>
+                <div style={{ fontSize: 11, color: 'var(--ink-soft)', marginBottom: 4 }}>Прогнозований бал</div>
+                <div style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 30, color: 'var(--ink)' }}>
+                  156<span style={{ fontSize: 14, fontWeight: 400, marginLeft: 4, color: 'var(--ink-soft)' }}>/ 200</span>
                 </div>
               </div>
-              <div className="text-right">
-                <div className="text-xs mb-1" style={{ color: '#5A5A72' }}>
-                  Порівняно з минулим
-                </div>
-                <div className="text-base font-bold" style={{ color: '#4ADE80' }}>
-                  +12 балів ↑
-                </div>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: 11, color: 'var(--ink-soft)', marginBottom: 4 }}>Порівняно з минулим</div>
+                <div style={{ fontWeight: 700, color: 'var(--green)' }}>+12 балів ↑</div>
               </div>
             </div>
-
             {/* Topics */}
-            <div className="px-5 py-4">
-              <div className="text-xs font-semibold uppercase tracking-wide mb-4" style={{ color: '#5A5A72' }}>
+            <div style={{ padding: '14px 20px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 14 }}>
                 Теми для опрацювання
               </div>
-              <div className="space-y-3">
-                {topics.map((topic, i) => {
-                  const barColor = getBarColor(topic.pct)
-                  return (
-                    <div key={i}>
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs" style={{ color: '#9090AA' }}>
-                          {topic.name}
-                        </span>
-                        <span
-                          className="text-xs font-bold tabular-nums"
-                          style={{ color: barColor }}
-                        >
-                          {topic.pct}%
-                        </span>
-                      </div>
-                      <div
-                        className="h-1.5 rounded-full overflow-hidden"
-                        style={{ backgroundColor: '#1E1E2E' }}
-                      >
-                        <div
-                          className="h-full rounded-full"
-                          style={{
-                            width: `${topic.pct}%`,
-                            backgroundColor: barColor,
-                            transition: 'width 1s ease',
-                          }}
-                        />
-                      </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {topics.map(t => (
+                  <div key={t.name}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                      <span style={{ fontSize: 12.5, color: 'var(--ink-soft)' }}>{t.name}</span>
+                      <span style={{ fontSize: 12.5, fontWeight: 700, color: barColor(t.pct) }}>{t.pct}%</span>
                     </div>
-                  )
-                })}
+                    <div style={{ height: 6, borderRadius: 6, overflow: 'hidden', background: 'rgba(15,59,57,.1)' }}>
+                      <div style={{ height: '100%', borderRadius: 6, width: `${t.pct}%`, background: barColor(t.pct), transition: 'width 1s ease' }} />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-
-            {/* Footer note */}
-            <div
-              className="px-5 py-3"
-              style={{ borderTop: '1px solid #1E1E2E', backgroundColor: '#0A0A14' }}
-            >
-              <p className="text-xs" style={{ color: '#5A5A72' }}>
-                На основі 48 відповідей · Оновлено сьогодні
-              </p>
+            {/* Footer */}
+            <div style={{ padding: '10px 20px', borderTop: '1.5px solid rgba(255,255,255,.4)', background: 'rgba(255,255,255,.3)' }}>
+              <p style={{ fontSize: 11.5, color: 'var(--ink-soft)' }}>На основі 48 відповідей · Оновлено сьогодні</p>
             </div>
           </div>
         </div>
       </div>
+      <style>{`
+        @media(max-width:768px){.ai-grid{grid-template-columns:1fr!important}}
+      `}</style>
     </section>
   )
 }
